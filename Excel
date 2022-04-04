@@ -1,0 +1,38 @@
+package parametrization;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import config.Configuration;
+
+public class TC01 {
+
+	public static void main(String[] args) throws EncryptedDocumentException, IOException {
+		
+		//Read excel sheet data
+		
+		FileInputStream path = new FileInputStream("C:\\Users\\balaji\\Desktop\\Java Automation\\1-Jan\\Automation\\paramterization\\TestData.xlsx");
+		
+	String username = WorkbookFactory.create(path).getSheet("Sheet1").getRow(2).getCell(1).getStringCellValue();
+		
+	System.out.println(username);
+	
+	
+	//Browser launch
+	System.setProperty("webdriver.chrome.driver", Configuration.driverPath);
+	WebDriver driver = new ChromeDriver();		
+	driver.get(Configuration.appUrl);
+	driver.manage().window().maximize();
+	
+	
+	driver.findElement(By.xpath("//input[@id='email']")).sendKeys(username);
+	
+	
+}
+}
